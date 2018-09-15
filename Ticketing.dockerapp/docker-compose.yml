@@ -1,0 +1,49 @@
+version: "3.6"
+services:
+
+  mysql:
+    image: mariadb:10.3.9-bionic
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ticketing
+      MYSQL_USER: ticketing
+      MYSQL_PASSWORD: root
+
+  traefik:
+    image: traefik
+    command:
+      - "--api"
+      - "--docker"
+      - "--docker.exposedbydefault=false"
+    depends_on:
+      - backend
+    ports:
+      - "${PORT_HTTP}:80"
+      - "${PORT_TRAEFIK_DASHBOARD}:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  redis:
+    image: redis
+  
+  backend:
+    build: ./services/ticketing-backend
+    image: skn0tt/ticketing:latest
+    depends_on:
+      - mysql
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip: /api/"
+    environment:
+      MYSQL_DATABASE: ticketing
+      MYSQL_USERNAME: ticketing
+      MYSQL_PASSWORD: root
+      MYSQL_HOSTNAME: mysql
+      MYSQL_PORT: 3306
+      SCHOOLS: ${schools}
+      ADMIN_PASSWORD: ${adminPassword}
+      ADMIN_USERNAME: ${adminUsername}
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379

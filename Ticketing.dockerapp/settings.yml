@@ -1,0 +1,9 @@
+schools: >-
+  [{
+    "name": "SAG",
+    "password": "sag"
+  }]
+adminUsername: root
+adminPassword: root
+PORT_HTTP: 80
+PORT_TRAEFIK_DASHBOARD: 8080

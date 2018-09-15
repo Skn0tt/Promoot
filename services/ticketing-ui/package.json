@@ -1,0 +1,8 @@
+{
+  "name": "ticketing-ui",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "author": "Simon Knott",
+  "license": "MIT",
+  "private": true
+}
