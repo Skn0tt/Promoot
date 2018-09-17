@@ -1,9 +1,5 @@
-schools: >-
-  [{
-    "name": "SAG",
-    "password": "sag"
-  }]
-adminUsername: root
+school_names: "SAG"
+school_passwords: "sag" 
 adminPassword: root
 PORT_HTTP: 80
 PORT_TRAEFIK_DASHBOARD: 8080

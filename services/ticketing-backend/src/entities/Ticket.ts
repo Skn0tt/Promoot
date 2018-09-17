@@ -1,6 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, getRepository } from "typeorm";
 import { Validation, Maybe } from "monet";
 import { ITicket, isValidTicket } from "../models/Ticket";
+import { getConfig } from "../config";
+
+const { ticketGroups } = getConfig();
 
 @Entity()
 export class Ticket implements ITicket {
@@ -22,6 +25,12 @@ export class Ticket implements ITicket {
 
   @Column()
   checkedIn: boolean;
+
+  @Column({
+    enum: ticketGroups,
+    type: "enum"
+  })
+  ticketGroup: string;
 
 }
 

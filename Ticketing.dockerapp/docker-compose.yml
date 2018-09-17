@@ -28,8 +28,8 @@ services:
     image: redis
   
   backend:
+    image: skn0tt/ticketing-backend:latest
     build: ./services/ticketing-backend
-    image: skn0tt/ticketing:latest
     depends_on:
       - mysql
       - redis
@@ -42,8 +42,21 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_HOSTNAME: mysql
       MYSQL_PORT: 3306
-      SCHOOLS: ${schools}
+      SCHOOL_NAMES: ${school_names}
+      SCHOOL_PASSWORDS: ${school_passwords}
       ADMIN_PASSWORD: ${adminPassword}
-      ADMIN_USERNAME: ${adminUsername}
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
+
+  ui:
+    image: skn0tt/ticketing-ui:latest
+    build: ./services/ticketing-ui
+    restart: on-failure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip: /"
+    environment:
+      - SCHOOL_NAMES=${school_names}
+      - CONFIG_VARS=SCHOOL_NAMES
+
+

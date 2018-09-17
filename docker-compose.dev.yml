@@ -1,0 +1,7 @@
+version: '3.6'
+
+services:
+
+  ui:
+    volumes:
+      - $PWD/services/ticketing-ui/dist/:/app/

@@ -19,7 +19,8 @@ interface Config {
   redis: {
     hostname: string;
     port: number;
-  }
+  };
+  ticketGroups: string[];
 }
 
 let config: Config | null;
@@ -27,26 +28,34 @@ let config: Config | null;
 export const getConfig = () => {
   if (!config) {
     const {
-      SCHOOLS,
+      SCHOOL_NAMES,
+      SCHOOL_PASSWORDS,
       MYSQL_USERNAME,
       MYSQL_PASSWORD,
       MYSQL_HOSTNAME,
       MYSQL_PORT,
       MYSQL_DATABASE,
       ADMIN_PASSWORD,
-      ADMIN_USERNAME,
       REDIS_HOSTNAME,
       REDIS_PORT,
+      TICKET_GROUPS
     } = process.env;
 
+    const schoolNames = SCHOOL_NAMES.split(";");
+    const schoolPasswords = SCHOOL_PASSWORDS.split(";");
+    const ticketGroups = TICKET_GROUPS.split(";");
+
+    const schools = schoolNames.map((name, index) => ({ name, password: schoolPasswords[index] }));
+
     config = {
-      schools: JSON.parse(SCHOOLS!),
+      schools,
+      ticketGroups,
       redis: {
         hostname: REDIS_HOSTNAME!,
         port: +REDIS_PORT!
       },
       admin: {
-        username: ADMIN_USERNAME!,
+        username: "admin",
         password: ADMIN_PASSWORD!,
       },
       mysql: {
