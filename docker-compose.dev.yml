@@ -4,4 +4,4 @@ services:
 
   ui:
     volumes:
-      - $PWD/services/ticketing-ui/dist/:/app/
+      - $PWD/services/promoot-ui/dist/:/app/

@@ -6,8 +6,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: ticketing
-      MYSQL_USER: ticketing
+      MYSQL_DATABASE: promoot
+      MYSQL_USER: promoot
       MYSQL_PASSWORD: root
 
   traefik:
@@ -28,8 +28,8 @@ services:
     image: redis
   
   backend:
-    image: skn0tt/ticketing-backend:latest
-    build: ./services/ticketing-backend
+    image: skn0tt/promoot-backend:latest
+    build: ./services/promoot-backend
     depends_on:
       - mysql
       - redis
@@ -37,8 +37,8 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=PathPrefixStrip: /api/"
     environment:
-      MYSQL_DATABASE: ticketing
-      MYSQL_USERNAME: ticketing
+      MYSQL_DATABASE: promoot
+      MYSQL_USERNAME: promoot
       MYSQL_PASSWORD: root
       MYSQL_HOSTNAME: mysql
       MYSQL_PORT: 3306
@@ -49,8 +49,8 @@ services:
       REDIS_PORT: 6379
 
   ui:
-    image: skn0tt/ticketing-ui:latest
-    build: ./services/ticketing-ui
+    image: skn0tt/promoot-ui:latest
+    build: ./services/promoot-ui
     restart: on-failure
     labels:
       - "traefik.enable=true"

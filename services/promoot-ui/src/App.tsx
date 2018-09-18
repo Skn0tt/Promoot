@@ -28,7 +28,7 @@ export class App extends React.PureComponent<{}, AppState> {
         <InfoContext.Provider value={this.addItem}>
           <InfoBar items={infos} onChange={infos => this.setState({ infos })}/>
           <Drawer
-            title="SüM-Ticketing"
+            title="SüM - Promoot"
             listItems={<Routes />}
           >
             <Switch>
