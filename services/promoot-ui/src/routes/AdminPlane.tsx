@@ -1,43 +1,58 @@
 import * as React from "react";
 import { Maybe, Some } from "monet";
-import { isInCheckInPhase, setCheckInPhase } from "../api";
+import { setCheckInPhase, setMaxTickets, getAdminInfo } from "../api";
 import { PasswordDialog } from "../components/PasswordDialog";
-import { FormGroup, FormControlLabel, Switch } from "@material-ui/core";
+import { FormGroup, FormControlLabel, Switch, TextField, Button } from "@material-ui/core";
 import { RouteComponentProps } from "react-router";
 
 interface AdminPlaneProps {}
 
 interface AdminPlaneState {
-  checkInPhase: Maybe<boolean>;
+  isInCheckInPhase: Maybe<boolean>;
+  maxTickets: Maybe<number>;
+  maxTicketsField: number,
   password: string;
 }
 
 export class AdminPlane extends React.PureComponent<AdminPlaneProps & RouteComponentProps, AdminPlaneState> {
   state: Readonly<AdminPlaneState> = {
-    checkInPhase: Maybe.None(),
+    isInCheckInPhase: Maybe.None(),
+    maxTickets: Maybe.None(),
+    maxTicketsField: 0,
     password: ""
   }
 
   getInfo = async (password: string) => {
-    const checkInPhase = await isInCheckInPhase(password);
-    this.setState({ checkInPhase: Maybe.Some(checkInPhase), password });
+    const { isInCheckInPhase, maxTickets } = await getAdminInfo(password);
+    this.setState({
+      isInCheckInPhase: Maybe.Some(isInCheckInPhase),
+      password,
+      maxTickets: Maybe.Some(maxTickets),
+      maxTicketsField: maxTickets
+    });
   }
 
   setCheckInPhase = async () => {
-    const { checkInPhase, password } = this.state;
-    const newValue = !checkInPhase.some();
+    const { isInCheckInPhase, password } = this.state;
+    const newValue = !isInCheckInPhase.some();
     const response = await setCheckInPhase(newValue, password);
-    this.setState({ checkInPhase: Some(response) });
+    this.setState({ isInCheckInPhase: Some(response) });
+  }
+
+  setMaxTickets = async (value: number) => {
+    const { password } = this.state;
+    const res = await setMaxTickets(value, password);
+    this.setState({ maxTickets: Maybe.Some(res), maxTicketsField: res });
   }
 
   render() {
     const { history } = this.props;
-    const { checkInPhase } = this.state;
+    const { isInCheckInPhase, maxTickets, maxTicketsField } = this.state;
 
     return (
       <React.Fragment>
         <PasswordDialog
-          open={checkInPhase.isNone()}
+          open={isInCheckInPhase.isNone()}
           onSubmit={this.getInfo}
           onCancel={() => history.goBack()}
         />
@@ -45,7 +60,7 @@ export class AdminPlane extends React.PureComponent<AdminPlaneProps & RouteCompo
           <FormControlLabel
             control={
               <Switch
-                checked={checkInPhase.orSome(false)}
+                checked={isInCheckInPhase.orSome(false)}
                 onChange={this.setCheckInPhase}
                 value="checkedB"
                 color="primary"
@@ -54,6 +69,28 @@ export class AdminPlane extends React.PureComponent<AdminPlaneProps & RouteCompo
             label="CheckIn Phase"
           />
         </FormGroup>
+        <TextField
+          id="standard-number"
+          label="Max Tickets"
+          value={maxTicketsField}
+          onChange={
+            ({ target: { value }}) => this.setState({ maxTicketsField: +value })
+          }
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          style={{ marginRight: 20 }}
+          margin="normal"
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={maxTickets.orSome(maxTicketsField) === maxTicketsField}
+          onClick={() => this.setMaxTickets(maxTicketsField)}
+        >
+          Update
+        </Button>
       </React.Fragment>
     )
   }

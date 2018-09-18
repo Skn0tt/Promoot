@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, getRepository } from "typeorm";
 import { Validation, Maybe } from "monet";
 import { ITicket, isValidTicket } from "../models/Ticket";
 import { getConfig } from "../config";
+import { getMaxTickets } from "../redis";
 
 const { ticketGroups } = getConfig();
 
@@ -48,12 +49,23 @@ const ticketExists = async (firstName: string, lastName: string, email: string):
   return count > 0;
 }
 
+export const areTicketsLeft = async () => {
+  const maxTickets = await getMaxTickets();
+  const currentAmount = await ticketRepo().count();
+
+  return currentAmount < maxTickets;
+}
+
 export const createTicket = async (ticket: ITicket): Promise<Validation<string, Ticket>> => {
   if (!isValidTicket(ticket)) {
     return Validation.Fail("Ticket Invalid");
   }
 
   const { checkedIn, merchant, email, lastName, firstName } = ticket;
+
+  if (!(await areTicketsLeft())) {
+    return Validation.fail("No tickets left.");
+  }
 
   if (await ticketExists(firstName, lastName, email)) {
     return Validation.Fail("Ticket already exists");
