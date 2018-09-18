@@ -3,6 +3,7 @@ import { Maybe, Some } from "monet";
 import { isInCheckInPhase, setCheckInPhase } from "../api";
 import { PasswordDialog } from "../components/PasswordDialog";
 import { FormGroup, FormControlLabel, Switch } from "@material-ui/core";
+import { RouteComponentProps } from "react-router";
 
 interface AdminPlaneProps {}
 
@@ -11,7 +12,7 @@ interface AdminPlaneState {
   password: string;
 }
 
-export class AdminPlane extends React.PureComponent<AdminPlaneProps, AdminPlaneState> {
+export class AdminPlane extends React.PureComponent<AdminPlaneProps & RouteComponentProps, AdminPlaneState> {
   state: Readonly<AdminPlaneState> = {
     checkInPhase: Maybe.None(),
     password: ""
@@ -30,6 +31,7 @@ export class AdminPlane extends React.PureComponent<AdminPlaneProps, AdminPlaneS
   }
 
   render() {
+    const { history } = this.props;
     const { checkInPhase } = this.state;
 
     return (
@@ -37,6 +39,7 @@ export class AdminPlane extends React.PureComponent<AdminPlaneProps, AdminPlaneS
         <PasswordDialog
           open={checkInPhase.isNone()}
           onSubmit={this.getInfo}
+          onCancel={() => history.goBack()}
         />
         <FormGroup row>
           <FormControlLabel

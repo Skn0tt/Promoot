@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, Dialo
 
 interface PasswordDialogProps {
   onSubmit: (candidate: string) => void;
+  onCancel: () => void;
   open: boolean;
 }
 
@@ -17,7 +18,7 @@ export class PasswordDialog extends React.PureComponent<PasswordDialogProps, Pas
   }
 
   render() {
-    const { onSubmit, open } = this.props;
+    const { onSubmit, open, onCancel } = this.props;
     const { value } = this.state;
 
     return (
@@ -38,6 +39,9 @@ export class PasswordDialog extends React.PureComponent<PasswordDialogProps, Pas
           />
         </DialogContent>
         <DialogActions>
+          <Button onClick={onCancel} color="secondary">
+            Cancel
+          </Button>
           <Button onClick={() => onSubmit(value)} color="primary">
             Submit
           </Button>
