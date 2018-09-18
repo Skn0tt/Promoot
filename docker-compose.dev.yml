@@ -1,10 +1,6 @@
 version: '3.6'
 
 services:
-
-  backend:
-    volumes:
-      - $PWD/services/promoot-backend/src/:/app/src/
     
   ui:
     volumes:

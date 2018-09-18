@@ -31,7 +31,7 @@ export class Ticket implements ITicket {
     enum: ticketGroups,
     type: "enum"
   })
-  ticketGroup: string;
+  group: string;
 
 }
 
@@ -115,4 +115,29 @@ export const checkInTicket = async (id: string): Promise<Maybe<Ticket>> => {
   await ticketRepo().save(ticket);
 
   return Maybe.Some(ticket);
+}
+
+type Stats = { [merchant: string]: { [group: string]: { sold: number, checkedIn: number } } };
+
+export const collectStats = async (): Promise<Stats> => {
+  const queryResult: any[] = await ticketRepo()
+    .createQueryBuilder("ticket")
+    .select("ticket.merchant")
+      .addSelect("ticket.group")
+      .addSelect("SUM(ticket.checkedIn = 1) AS checkedIn")
+      .addSelect("COUNT(*) AS count")
+    .groupBy("ticket.merchant")
+      .addGroupBy("ticket.group")
+    .getRawMany();
+
+  const result: Stats = {};
+
+  queryResult.forEach(({ ticket_merchant, ticket_group, count, checkedIn }) => {
+    if (!result[ticket_merchant]) {
+      result[ticket_merchant] = {};
+    }
+    result[ticket_merchant][ticket_group] = { sold: +count, checkedIn: +checkedIn };
+  });
+
+  return result;
 }

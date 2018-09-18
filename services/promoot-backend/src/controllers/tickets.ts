@@ -1,12 +1,17 @@
 import { Router, Request, Response } from "express";
 import wrapAsync from "express-wrap-async";
-import { getTickets, getTicket, checkInTicket, deleteTicket, createTicket } from "../entities/Ticket";
+import { getTickets, getTicket, checkInTicket, deleteTicket, createTicket, collectStats } from "../entities/Ticket";
 import basicAuth from "basic-auth";
 import { isAdmin, getMerchant } from "../users";
 import { isInCheckin } from "../redis";
 
 export const tickets = Router();
 export default tickets;
+
+tickets.get("/stats", wrapAsync(async (_, res: Response) => {
+  const stats = await collectStats();
+  return res.status(200).json(stats);
+}));
 
 tickets.get("/", wrapAsync(async (req: Request, res: Response) => {
   const tickets = await getTickets();
@@ -62,7 +67,7 @@ tickets.post("/", wrapAsync(async (req: Request, res: Response) => {
     firstName: body.firstName,
     lastName: body.lastName,
     merchant: merchant.some(),
-    ticketGroup: body.ticketGroup,
+    group: body.group,
   });
   
   if (createdTicket.isFail()) {

@@ -5,5 +5,5 @@ export interface Ticket {
   id: string;
   merchant: string;
   checkedIn: boolean;
-  ticketGroup: string;
+  group: string;
 }

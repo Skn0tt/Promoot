@@ -23,7 +23,7 @@ interface NewTicketState {
   email: string;
   merchant: string;
   password: string;
-  ticketGroup: string;
+  group: string;
 }
 
 const isValidEmail = (s: string) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(s)
@@ -38,27 +38,27 @@ export class NewTicket extends React.PureComponent<WithStyles, NewTicketState> {
     lastName: "",
     merchant: "",
     password: "",
-    ticketGroup: "",
+    group: "",
   }
 
-  static isInputValid = ({ email, firstName, lastName, merchant, password, ticketGroup }: NewTicketState): boolean =>
+  static isInputValid = ({ email, firstName, lastName, merchant, password, group }: NewTicketState): boolean =>
     isValidEmail(email) &&
     isNotEmpty(firstName) &&
     isNotEmpty(lastName) &&
     isNotEmpty(password) &&
     isValidMerchant(merchant) &&
-    isValidTicketGroup(ticketGroup)
+    isValidTicketGroup(group)
 
   createTicket = (onInfo: (s: string) => void) => async () => {
-    const { email, firstName, lastName, merchant, password, ticketGroup } = this.state;
-    const ticket = await createTicket({ email, firstName, lastName, ticketGroup }, merchant, password);
+    const { email, firstName, lastName, merchant, password, group } = this.state;
+    const ticket = await createTicket({ email, firstName, lastName, group }, merchant, password);
     onInfo(`Successfully created ticket for ${ticket.firstName}: ${ticket.id}`);
-    this.setState({ email: "", firstName: "", lastName: "", ticketGroup: "" });
+    this.setState({ email: "", firstName: "", lastName: "", group: "" });
   }
 
   render() {
     const { classes } = this.props;
-    const { merchant, lastName, email, firstName, password, ticketGroup } = this.state;
+    const { merchant, lastName, email, firstName, password, group } = this.state;
 
     return (
       <InfoContext.Consumer>
@@ -133,10 +133,10 @@ export class NewTicket extends React.PureComponent<WithStyles, NewTicketState> {
                 <FormControl className={classes.formControl}>
                   <InputLabel htmlFor="ticketGroup">Ticket Group</InputLabel>
                   <Select
-                    value={ticketGroup}
+                    value={group}
                     native
                     fullWidth
-                    onChange={({ target: { value: ticketGroup }}) => this.setState({ ticketGroup })}
+                    onChange={({ target: { value: group }}) => this.setState({ group })}
                     inputProps={{ id: "ticketGroup" }}
                   >
                     {[""].concat(TICKET_GROUPS).map(name => (
