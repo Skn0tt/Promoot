@@ -7,6 +7,7 @@ import TicketList from "./routes/TicketList";
 import AdminPlane from "./routes/AdminPlane";
 import NewTicket from "./routes/NewTicket";
 import { InfoBar } from "./components/InfoBar";
+import { Stats } from "./routes/Stats";
 
 interface AppState {
   infos: string[];
@@ -47,6 +48,11 @@ export class App extends React.PureComponent<{}, AppState> {
                 exact
                 path="/admin"
                 component={AdminPlane}
+              />
+              <Route
+                exact
+                path="/stats"
+                component={Stats}
               />
             </Switch>
           </Drawer>

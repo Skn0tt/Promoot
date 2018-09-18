@@ -61,7 +61,7 @@ export const createTicket = async (ticket: ITicket): Promise<Validation<string, 
     return Validation.Fail("Ticket Invalid");
   }
 
-  const { checkedIn, merchant, email, lastName, firstName } = ticket;
+  const { checkedIn, merchant, email, lastName, firstName, group } = ticket;
 
   if (!(await areTicketsLeft())) {
     return Validation.fail("No tickets left.");
@@ -78,6 +78,7 @@ export const createTicket = async (ticket: ITicket): Promise<Validation<string, 
   result.email = email;
   result.lastName = lastName;
   result.firstName = firstName;
+  result.group = group;
 
   await ticketRepo().save(result);
 

@@ -90,3 +90,11 @@ export const setCheckInPhase = async (value: boolean, password: string) => {
   });
   return res.data;
 }
+
+export type Stats = { [merchant: string]: { [group: string]: { sold: number, checkedIn: number } } };
+
+export const getStats = async () => {
+  const res = await axios.get<Stats>(baseUrl + "/tickets/stats");
+
+  return res.data;
+}
