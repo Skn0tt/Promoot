@@ -5,6 +5,7 @@ import morgan from "morgan";
 import * as bodyParser from "body-parser";
 import { admin } from "./controllers/admin";
 import { setupCheckin } from "./checkIn";
+import { status } from "./controllers/status";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.text());
 
 app.use("/tickets", tickets);
 app.use("/admin", admin);
+app.use("/status", status);
 
 setupDB();
 setupCheckin();
