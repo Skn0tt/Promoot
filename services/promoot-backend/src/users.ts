@@ -2,20 +2,20 @@ import { getConfig } from "./config";
 import { Maybe } from "monet";
 import { BasicAuthResult } from "basic-auth";
 
-const { schools, admin } = getConfig();
+const { merchants, admin } = getConfig();
 
-export const getSchool = ({ name, pass }: BasicAuthResult): Maybe<string> => {
-  const school = schools.find((s) => s.name === name);
+export const getMerchant = ({ name, pass }: BasicAuthResult): Maybe<string> => {
+  const merchant = merchants.find((s) => s.name === name);
 
-  if (!school) {
+  if (!merchant) {
     return Maybe.None();
   }
 
-  if (school.password !== pass) {
+  if (merchant.password !== pass) {
     return Maybe.None();
   }
 
-  return Maybe.Some(school.name);
+  return Maybe.Some(merchant.name);
 }
 
 export const isAdmin = ({ name, pass }: BasicAuthResult): boolean => {

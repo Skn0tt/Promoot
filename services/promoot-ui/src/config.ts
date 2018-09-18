@@ -2,7 +2,7 @@ import { Some, Maybe, None } from "monet";
 import cookie from "js-cookie";
 
 type Config = {
-  SCHOOL_NAMES: string[];
+  MERCHANT_NAMES: string[];
   TICKET_GROUPS: string[];
 };
 
@@ -38,8 +38,8 @@ const readConfig = () => {
   const c = getConfig();
 
   config = {
-    SCHOOL_NAMES: c.SCHOOL_NAMES.split(";"),
-    TICKET_GROUPS: ["5", "6"]
+    MERCHANT_NAMES: c.MERCHANT_NAMES.split(";"),
+    TICKET_GROUPS: c.TICKET_GROUPS.split(";"),
   };
 };
 

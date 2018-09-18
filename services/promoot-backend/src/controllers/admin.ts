@@ -14,11 +14,11 @@ admin.use((req, res, next) => {
   return next();
 })
 
-admin.get("/checkIn", wrapAsync(async (req: Request, res: Response) => {
+admin.get("/checkedIn", wrapAsync(async (req: Request, res: Response) => {
   return res.status(200).json(await isInCheckin());
 }));
 
-admin.put("/checkIn", wrapAsync(async (req: Request, res: Response) => {
+admin.put("/checkedIn", wrapAsync(async (req: Request, res: Response) => {
   const value = req.body;
   await setCheckin(value === "true");
   return res.status(200).end();

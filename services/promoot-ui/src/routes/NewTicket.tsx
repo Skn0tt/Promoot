@@ -15,20 +15,20 @@ const styles = createStyles(theme => ({
   }
 }));
 
-const { SCHOOL_NAMES, TICKET_GROUPS } = config.get();
+const { MERCHANT_NAMES, TICKET_GROUPS } = config.get();
 
 interface NewTicketState {
   firstName: string;
   lastName: string;
   email: string;
-  school: string;
+  merchant: string;
   password: string;
   ticketGroup: string;
 }
 
 const isValidEmail = (s: string) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(s)
 const isNotEmpty = (s: string) => s !== ""
-const isValidSchool = (s: string) => SCHOOL_NAMES.includes(s)
+const isValidMerchant = (s: string) => MERCHANT_NAMES.includes(s)
 const isValidTicketGroup = (g: string) => TICKET_GROUPS.includes(g)
 
 export class NewTicket extends React.PureComponent<WithStyles, NewTicketState> {
@@ -36,29 +36,29 @@ export class NewTicket extends React.PureComponent<WithStyles, NewTicketState> {
     firstName: "",
     email: "",
     lastName: "",
-    school: "",
+    merchant: "",
     password: "",
     ticketGroup: "",
   }
 
-  static isInputValid = ({ email, firstName, lastName, school, password, ticketGroup }: NewTicketState): boolean =>
+  static isInputValid = ({ email, firstName, lastName, merchant, password, ticketGroup }: NewTicketState): boolean =>
     isValidEmail(email) &&
     isNotEmpty(firstName) &&
     isNotEmpty(lastName) &&
     isNotEmpty(password) &&
-    isValidSchool(school) &&
+    isValidMerchant(merchant) &&
     isValidTicketGroup(ticketGroup)
 
   createTicket = (onInfo: (s: string) => void) => async () => {
-    const { email, firstName, lastName, school, password, ticketGroup } = this.state;
-    const ticket = await createTicket({ email, firstName, lastName, ticketGroup }, school, password);
+    const { email, firstName, lastName, merchant, password, ticketGroup } = this.state;
+    const ticket = await createTicket({ email, firstName, lastName, ticketGroup }, merchant, password);
     onInfo(`Successfully created ticket for ${ticket.firstName}: ${ticket.id}`);
     this.setState({ email: "", firstName: "", lastName: "", ticketGroup: "" });
   }
 
   render() {
     const { classes } = this.props;
-    const { school, lastName, email, firstName, password, ticketGroup } = this.state;
+    const { merchant, lastName, email, firstName, password, ticketGroup } = this.state;
 
     return (
       <InfoContext.Consumer>
@@ -67,15 +67,15 @@ export class NewTicket extends React.PureComponent<WithStyles, NewTicketState> {
             <Grid item container spacing={16}>
               <Grid item xs={6}>
                 <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="school">School</InputLabel>
+                  <InputLabel htmlFor="merchant">Merchant</InputLabel>
                   <Select
-                    value={school}
+                    value={merchant}
                     native
                     fullWidth
-                    onChange={({ target: { value: school }}) => this.setState({ school })}
-                    inputProps={{ id: "school" }}
+                    onChange={({ target: { value: merchant }}) => this.setState({ merchant })}
+                    inputProps={{ id: "merchant" }}
                   >
-                    {[""].concat(SCHOOL_NAMES).map(name => (
+                    {[""].concat(MERCHANT_NAMES).map(name => (
                       <option value={name} key={name}>
                         {name}
                       </option>

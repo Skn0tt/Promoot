@@ -1,10 +1,10 @@
-interface School {
+interface Merchant {
   name: string;
   password: string;
 }
 
 interface Config {
-  schools: School[];
+  merchants: Merchant[];
   admin: {
     username: string;
     password: string;
@@ -28,8 +28,8 @@ let config: Config | null;
 export const getConfig = () => {
   if (!config) {
     const {
-      SCHOOL_NAMES,
-      SCHOOL_PASSWORDS,
+      MERCHANT_NAMES,
+      MERCHANT_PASSWORDS,
       MYSQL_USERNAME,
       MYSQL_PASSWORD,
       MYSQL_HOSTNAME,
@@ -41,14 +41,14 @@ export const getConfig = () => {
       TICKET_GROUPS
     } = process.env;
 
-    const schoolNames = SCHOOL_NAMES.split(";");
-    const schoolPasswords = SCHOOL_PASSWORDS.split(";");
+    const merchantNames = MERCHANT_NAMES.split(";");
+    const merchantPasswords = MERCHANT_PASSWORDS.split(";");
     const ticketGroups = TICKET_GROUPS.split(";");
 
-    const schools = schoolNames.map((name, index) => ({ name, password: schoolPasswords[index] }));
+    const merchants = merchantNames.map((name, index) => ({ name, password: merchantPasswords[index] }));
 
     config = {
-      schools,
+      merchants,
       ticketGroups,
       redis: {
         hostname: REDIS_HOSTNAME!,
@@ -71,4 +71,4 @@ export const getConfig = () => {
   return config;
 }
 
-export const SCHOOL_NAMES = getConfig().schools.map(s => s.name)
+export const MERCHANT_NAMES = getConfig().merchants.map(s => s.name)

@@ -1,5 +1,6 @@
-school_names: "SAG"
-school_passwords: "sag" 
-adminPassword: root
+MERCHANT_NAMES: "SAG"
+MERCHANT_PASSWORDS: "sag"
+ADMIN_PASSWORD: "root"
+TICKET_GROUPS: "5;6;7;8;9"
 PORT_HTTP: 80
 PORT_TRAEFIK_DASHBOARD: 8080

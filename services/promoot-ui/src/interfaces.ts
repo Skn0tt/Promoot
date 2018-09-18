@@ -3,7 +3,7 @@ export interface Ticket {
   lastName: string;
   email: string;
   id: string;
-  school: string;
+  merchant: string;
   checkedIn: boolean;
   ticketGroup: string;
 }

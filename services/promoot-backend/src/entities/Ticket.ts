@@ -21,7 +21,7 @@ export class Ticket implements ITicket {
   email: string;
 
   @Column()
-  school: string;
+  merchant: string;
 
   @Column()
   checkedIn: boolean;
@@ -53,7 +53,7 @@ export const createTicket = async (ticket: ITicket): Promise<Validation<string, 
     return Validation.Fail("Ticket Invalid");
   }
 
-  const { checkedIn, school, email, lastName, firstName } = ticket;
+  const { checkedIn, merchant, email, lastName, firstName } = ticket;
 
   if (await ticketExists(firstName, lastName, email)) {
     return Validation.Fail("Ticket already exists");
@@ -62,7 +62,7 @@ export const createTicket = async (ticket: ITicket): Promise<Validation<string, 
   const result = new Ticket();
 
   result.checkedIn = checkedIn;
-  result.school = school;
+  result.merchant = merchant;
   result.email = email;
   result.lastName = lastName;
   result.firstName = firstName;

@@ -20,11 +20,11 @@ export const deleteTicket = async (id: string, adminPassword: string): Promise<T
   return res.data;
 }
 
-export const createTicket = async (ticket: Partial<Ticket>, school: string, password: string): Promise<Ticket> => {
+export const createTicket = async (ticket: Partial<Ticket>, merchant: string, password: string): Promise<Ticket> => {
   const res = await axios.post(baseUrl + "/tickets", ticket, {
     auth: {
       password,
-      username: school
+      username: merchant
     }
   });
   return res.data;

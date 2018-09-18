@@ -1,4 +1,4 @@
-import { SCHOOL_NAMES, getConfig } from "../config";
+import { MERCHANT_NAMES, getConfig } from "../config";
 import * as _ from "lodash";
 
 const { ticketGroups } = getConfig();
@@ -7,7 +7,7 @@ export interface ITicket {
   firstName: string;
   lastName: string;
   email: string;
-  school: string;
+  merchant: string;
   checkedIn: boolean;
   ticketGroup: string;
 }
@@ -17,9 +17,9 @@ const isValidEmail = (mail: string) => EMAIL_REGEX.test(mail);
 
 const isValidTicketGroup = (s: string) => ticketGroups.indexOf(s) !== -1
 
-const isValidSchool = (school: string) => _.includes(SCHOOL_NAMES, school)
+const isValidMerchant = (merchant: string) => _.includes(MERCHANT_NAMES, merchant)
 
 export const isValidTicket = (ticket: ITicket) => {
-  const { email, school, ticketGroup } = ticket;
-  return isValidEmail(email) && isValidSchool(school) && isValidTicketGroup(ticketGroup);
+  const { email, merchant, ticketGroup } = ticket;
+  return isValidEmail(email) && isValidMerchant(merchant) && isValidTicketGroup(ticketGroup);
 }
