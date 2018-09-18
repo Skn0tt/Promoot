@@ -30,6 +30,8 @@ const getConfig = (): any => {
     .orElse(Some("{}"))
     .some();
 
+  console.log(c)
+
   window.localStorage.setItem(LOCAL_STORAGE_CONFIG_KEY, c);
   return JSON.parse(c);
 };
@@ -38,8 +40,8 @@ const readConfig = () => {
   const c = getConfig();
 
   config = {
-    MERCHANT_NAMES: c.MERCHANT_NAMES.split(";"),
-    TICKET_GROUPS: c.TICKET_GROUPS.split(";"),
+    MERCHANT_NAMES: c.MERCHANT_NAMES.split(","),
+    TICKET_GROUPS: c.TICKET_GROUPS.split(","),
   };
 };
 
