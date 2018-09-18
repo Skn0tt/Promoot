@@ -29,3 +29,26 @@ export const createTicket = async (ticket: Partial<Ticket>, merchant: string, pa
   });
   return res.data;
 }
+
+export const isInCheckInPhase = async (password: string) => {
+  const res = await axios.get(baseUrl + "/admin/checkInPhase", {
+    auth: {
+      username: "admin",
+      password
+    }
+  });
+  return res.data;
+}
+
+export const setCheckInPhase = async (value: boolean, password: string) => {
+  const res = await axios.put(baseUrl + "/admin/checkInPhase", "" + value, {
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    auth: {
+      username: "admin",
+      password
+    }
+  });
+  return res.data;
+}

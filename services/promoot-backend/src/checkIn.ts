@@ -1,7 +1,6 @@
 import * as redis from "redis";
 import { getConfig } from "./config";
 import * as _ from "lodash";
-import { AdvancedConsoleLogger } from "typeorm";
 
 const { redis: { hostname, port } } = getConfig();
 

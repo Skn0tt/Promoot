@@ -4,6 +4,7 @@ import { Routes } from "./Routes";
 import { BrowserRouter } from "react-router-dom";
 import { Switch, Route } from "react-router";
 import TicketList from "./routes/TicketList";
+import AdminPlane from "./routes/AdminPlane";
 import NewTicket from "./routes/NewTicket";
 import { InfoBar } from "./components/InfoBar";
 
@@ -41,6 +42,11 @@ export class App extends React.PureComponent<{}, AppState> {
                 exact
                 path="/tickets/new"
                 component={NewTicket}
+              />
+              <Route
+                exact
+                path="/admin"
+                component={AdminPlane}
               />
             </Switch>
           </Drawer>
