@@ -1,40 +1,17 @@
 import * as React from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Grid, Typography } from "@material-ui/core";
 import { Stats as StatsRecord, getStats } from "../api";
 import { Maybe, None, Some } from "monet";
-import { PieChart, Pie, Tooltip, Cell, Legend, BarChart, CartesianGrid, XAxis, YAxis, Bar } from "recharts";
+import { CircleChart } from "../components/CircleChart";
 import * as _ from "lodash";
 import stringHash from "string-hash";
 import * as config from "../config";
+import { PartsChart } from "../components/PartsChart";
 
 const { TICKET_GROUPS } = config.get();
 
 interface StatsState {
   stats: Maybe<StatsRecord>;
-}
-
-const merchantsBarData = (stats: StatsRecord) =>
-  _.map(stats, (merchantData, merchant) => ({
-    name: merchant,
-    ..._.mapValues(merchantData, v => v.sold)
-  }));
-
-const merchantsPieData = (stats: StatsRecord) => {
-  return _.map(stats, (merchantData, merchant) => ({
-    name: merchant,
-    value: _.sumBy(_.values(merchantData), v => v.sold)
-  }));
-}
-
-const groupsPieData = (stats: StatsRecord) => {
-  const result =  _.flatMap(stats, (merchantData, merchant) =>
-    _.map(merchantData, (groupData, group) => ({
-      name: merchant + " " + group,
-      value: groupData.sold
-    }))
-  );
-
-  return result;
 }
 
 const reduceAllItems = (reducer: (v: { sold: number, checkedIn: number }) => number) => (stats: StatsRecord) =>
@@ -50,17 +27,17 @@ const soldTickets = reduceAllItems(v => v.sold)
 
 const checkedInTickets = reduceAllItems(v => v.checkedIn)
 
-const checkedInPieData = (stats: StatsRecord) => {
-  const checkedIn = checkedInTickets(stats);
-  const missing = soldTickets(stats) - checkedIn;
+const soldByMerchant = (stats: StatsRecord) =>
+    _.mapValues(stats, v => _.sumBy(_.toArray(v), v => v.sold))
 
-  return [{
-    name: "Checked In",
-    value: checkedIn
-  }, {
-    name: "Missing",
-    value: missing
-  }];
+const soldByGroup = (stats: StatsRecord) => {
+  const result: { [k: string]: number } = {};
+  _.forEach(stats, s => {
+    _.forEach(s, (v, g) => {
+      result[g] = (result[g] || 0) + v.sold;
+    })
+  })
+  return result;
 }
 
 const colors = ["#FFE082", "#C5E1A5", "#81D4FA", "#B39DDB", "#EF9A9A", "#CE93D8", "#BCAAA4", "#EEEEEE", "#B0BEC5"];
@@ -85,44 +62,65 @@ export class Stats extends React.PureComponent<{}, StatsState> {
         <CircularProgress />
       ),
       stats => {
-        console.log(merchantsBarData(stats))
-        const mData = merchantsPieData(stats);
-        const gData = groupsPieData(stats);
-        const cData = checkedInPieData(stats);
+        const sold = soldTickets(stats);
+        const checkedIn = checkedInTickets(stats);
+        const byMerchant = soldByMerchant(stats);
+        const byGroup = soldByGroup(stats);
         return (
-          <React.Fragment>
-            <BarChart width={730} height={250} data={merchantsBarData(stats)}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {TICKET_GROUPS.map(group => (
-                <Bar dataKey={group} fill={colorFor(group)} />
-              ))}
-            </BarChart>
-            <PieChart width={800} height={400}>
-              <Pie
-                dataKey="value"
-                data={cData}
-                cx={200}
-                cy={200}
-                innerRadius={70}
-                outerRadius={90}
-                fill="#82ca9d"
-                label
-              >
-                <Cell
-                  fill="#A5D6A7"
-                />
-                <Cell
-                  fill="#FFAB91"
-                />
-              </Pie>
-              <Tooltip />
-              <Legend verticalAlign="top" height={36}/>
-            </PieChart>
-          </React.Fragment>
+          <Grid container style={{ height: "100%" }} alignContent="flex-start" justify="flex-start" direction="row">
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12} md={6}>
+                  <CircleChart
+                    remaining={sold}
+                    remainingLabel="Available"
+                    remainingFill="#3f51b5"
+                    fulfilled={sold}
+                    title="Ticket Sales"
+                    fulfilledLabel="Sold"
+                    fulfilledFill="red"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <CircleChart
+                    title="Check In"
+                    remaining={sold}
+                    remainingLabel="Sold"
+                    remainingFill="red"
+                    fulfilled={checkedIn}
+                    fulfilledLabel="Checked In"
+                    fulfilledFill="#3f51b5"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <PartsChart
+                    title="By Merchant"
+                    parts={_.map(
+                      byMerchant,
+                      (b, k) => ({
+                        value: b,
+                        label: k,
+                        color: colorFor(k)
+                      })
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <PartsChart
+                    title="By Group"
+                    parts={_.map(
+                      byGroup,
+                      (b, k) => ({
+                        value: b,
+                        label: k,
+                        color: colorFor(k)
+                      })
+                    )}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         );
       }
     );
