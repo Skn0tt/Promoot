@@ -20,6 +20,11 @@ export const deleteTicket = async (id: string, adminPassword: string): Promise<T
   return res.data;
 }
 
+export const checkInTicket = async (id: string) => {
+  const res = await axios.get<Ticket>(baseUrl + `/tickets/${id}/checkIn`);
+  return res.data;
+}
+
 export const createTicket = async (ticket: Partial<Ticket>, merchant: string, password: string) => {
   const res = await axios.post<Ticket>(baseUrl + "/tickets", ticket, {
     auth: {
