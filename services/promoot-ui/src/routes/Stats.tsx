@@ -88,7 +88,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
                     fulfilled={sold}
                     title="Ticket Sales"
                     fulfilledLabel="Sold"
-                    fulfilledFill="red"
+                    fulfilledFill="#FFE082"
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
@@ -96,7 +96,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
                     title="Check In"
                     remaining={sold - checkedIn}
                     remainingLabel="Not Checked In"
-                    remainingFill="red"
+                    remainingFill="#3f51b5"
                     fulfilled={checkedIn}
                     fulfilledLabel="Checked In"
                     fulfilledFill="#3f51b5"
