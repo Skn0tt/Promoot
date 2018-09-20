@@ -1,15 +1,12 @@
 import * as React from "react";
-import { CircularProgress, Grid, Typography } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import { Stats as StatsRecord, getStats } from "../api";
 import { Maybe, None, Some } from "monet";
 import { CircleChart } from "../components/CircleChart";
 import * as _ from "lodash";
 import stringHash from "string-hash";
-import * as config from "../config";
 import { PartsChart } from "../components/PartsChart";
 import { GroupedBarChart, Group as GroupedBarChartGroup } from "../components/GroupedBarChart";
-
-const { TICKET_GROUPS } = config.get();
 
 interface StatsState {
   stats: Maybe<StatsRecord>;
@@ -83,7 +80,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
           <Grid container style={{ height: "100%" }} alignContent="flex-start" justify="flex-start" direction="row">
             <Grid item xs={12}>
               <Grid container>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CircleChart
                     remaining={sold}
                     remainingLabel="Available"
@@ -94,18 +91,18 @@ export class Stats extends React.PureComponent<{}, StatsState> {
                     fulfilledFill="red"
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <CircleChart
                     title="Check In"
-                    remaining={sold}
-                    remainingLabel="Sold"
+                    remaining={sold - checkedIn}
+                    remainingLabel="Not Checked In"
                     remainingFill="red"
                     fulfilled={checkedIn}
                     fulfilledLabel="Checked In"
                     fulfilledFill="#3f51b5"
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <PartsChart
                     title="By Merchant"
                     parts={_.map(
@@ -118,7 +115,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} lg={3}>
                   <PartsChart
                     title="By Group"
                     parts={_.map(

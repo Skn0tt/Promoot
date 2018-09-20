@@ -9,6 +9,7 @@ import NewTicket from "./routes/NewTicket";
 import CheckIn from "./routes/CheckIn";
 import { InfoBar } from "./components/InfoBar";
 import { Stats } from "./routes/Stats";
+import { CssBaseline } from "@material-ui/core";
 
 interface AppState {
   infos: string[];
@@ -29,6 +30,7 @@ export class App extends React.PureComponent<{}, AppState> {
     return (
       <BrowserRouter>
         <InfoContext.Provider value={this.addItem}>
+          <CssBaseline />
           <Switch>
             <Route
               exact
