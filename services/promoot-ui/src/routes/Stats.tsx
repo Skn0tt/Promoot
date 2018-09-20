@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import stringHash from "string-hash";
 import * as config from "../config";
 import { PartsChart } from "../components/PartsChart";
+import { GroupedBarChart, Group as GroupedBarChartGroup } from "../components/GroupedBarChart";
 
 const { TICKET_GROUPS } = config.get();
 
@@ -40,6 +41,17 @@ const soldByGroup = (stats: StatsRecord) => {
   return result;
 }
 
+const soldByMerchantAndGroup = (stats: StatsRecord): GroupedBarChartGroup[] => {
+  return _.toArray(_.map(
+    stats,
+    (groups, merchant) => ({
+      label: merchant,
+      columns: _.mapValues(groups, g => g.sold),
+      color: colorFor(merchant)
+    })
+  ))
+}
+
 const colors = ["#FFE082", "#C5E1A5", "#81D4FA", "#B39DDB", "#EF9A9A", "#CE93D8", "#BCAAA4", "#EEEEEE", "#B0BEC5"];
 
 const colorFor = (s: string) => colors[stringHash(s) % colors.length]
@@ -66,6 +78,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
         const checkedIn = checkedInTickets(stats);
         const byMerchant = soldByMerchant(stats);
         const byGroup = soldByGroup(stats);
+        const byMerchantAndGroup = soldByMerchantAndGroup(stats);
         return (
           <Grid container style={{ height: "100%" }} alignContent="flex-start" justify="flex-start" direction="row">
             <Grid item xs={12}>
@@ -119,6 +132,12 @@ export class Stats extends React.PureComponent<{}, StatsState> {
                   />
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <GroupedBarChart
+                items={byMerchantAndGroup}
+                title="By Merchant and Group"
+              />
             </Grid>
           </Grid>
         );

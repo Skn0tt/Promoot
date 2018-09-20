@@ -64,6 +64,10 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
 
+"@types/chart.js@^2.7.35":
+  version "2.7.35"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.35.tgz#22f977ec83c46835b248a8bbbf81ef808927562e"
+
 "@types/classnames@^2.2.6":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
