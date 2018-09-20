@@ -10,16 +10,26 @@ import CheckIn from "./routes/CheckIn";
 import { InfoBar } from "./components/InfoBar";
 import { Stats } from "./routes/Stats";
 import { CssBaseline } from "@material-ui/core";
+import * as config from "./config";
+
+const { TITLE } = config.get();
 
 interface AppState {
   infos: string[];
 }
+
+const title = `Promoot | ${TITLE}`;
+const header = `Promoot - ${TITLE}`;
 
 export const InfoContext = React.createContext<(s: string) => void>(() => {});
 
 export class App extends React.PureComponent<{}, AppState> {
   state: Readonly<AppState> = {
     infos: []
+  }
+
+  componentDidMount = () => {
+    document.title = title;
   }
 
   addItem = (i: string) => this.setState(({ infos }) => ({ infos: infos.concat(i) }))
@@ -41,7 +51,7 @@ export class App extends React.PureComponent<{}, AppState> {
             <React.Fragment>
             <InfoBar items={infos} onChange={infos => this.setState({ infos })}/>
               <Drawer
-                title="SüM - Promoot"
+                title={header}
                 listItems={<Routes />}
               >
                 <Switch>

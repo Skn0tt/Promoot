@@ -4,6 +4,7 @@ import cookie from "js-cookie";
 type Config = {
   MERCHANT_NAMES: string[];
   TICKET_GROUPS: string[];
+  TITLE: string;
 };
 
 let config: Config | null = null;
@@ -40,6 +41,7 @@ const readConfig = () => {
   config = {
     MERCHANT_NAMES: c.MERCHANT_NAMES.split(","),
     TICKET_GROUPS: c.TICKET_GROUPS.split(","),
+    TITLE: c.TITLE,
   };
 };
 
