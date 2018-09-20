@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CircularProgress, Grid } from "@material-ui/core";
-import { Stats as StatsRecord, getStats } from "../api";
+import { Stats as StatsRecord, getStats, StatsResponse } from "../api";
 import { Maybe, None, Some } from "monet";
 import { CircleChart } from "../components/CircleChart";
 import * as _ from "lodash";
@@ -9,7 +9,7 @@ import { PartsChart } from "../components/PartsChart";
 import { GroupedBarChart, Group as GroupedBarChartGroup } from "../components/GroupedBarChart";
 
 interface StatsState {
-  stats: Maybe<StatsRecord>;
+  stats: Maybe<StatsResponse>;
 }
 
 const reduceAllItems = (reducer: (v: { sold: number, checkedIn: number }) => number) => (stats: StatsRecord) =>
@@ -70,7 +70,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
       () => (
         <CircularProgress />
       ),
-      stats => {
+      ({ maxTickets, stats }) => {
         const sold = soldTickets(stats);
         const checkedIn = checkedInTickets(stats);
         const byMerchant = soldByMerchant(stats);
@@ -82,7 +82,7 @@ export class Stats extends React.PureComponent<{}, StatsState> {
               <Grid container>
                 <Grid item xs={12} md={6} lg={3}>
                   <CircleChart
-                    remaining={sold}
+                    remaining={maxTickets - sold}
                     remainingLabel="Available"
                     remainingFill="#3f51b5"
                     fulfilled={sold}

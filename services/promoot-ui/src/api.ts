@@ -98,8 +98,13 @@ export const setCheckInPhase = async (value: boolean, password: string) => {
 
 export type Stats = { [merchant: string]: { [group: string]: { sold: number, checkedIn: number } } };
 
+export interface StatsResponse {
+  maxTickets: number;
+  stats: Stats;
+}
+
 export const getStats = async () => {
-  const res = await axios.get<Stats>(baseUrl + "/tickets/stats");
+  const res = await axios.get<StatsResponse>(baseUrl + "/tickets/stats");
 
   return res.data;
 }

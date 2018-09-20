@@ -3,14 +3,15 @@ import wrapAsync from "express-wrap-async";
 import { getTickets, getTicket, checkInTicket, deleteTicket, createTicket, collectStats } from "../entities/Ticket";
 import basicAuth from "basic-auth";
 import { isAdmin, getMerchant } from "../users";
-import { isInCheckin } from "../redis";
+import { isInCheckin, getMaxTickets } from "../redis";
 
 export const tickets = Router();
 export default tickets;
 
 tickets.get("/stats", wrapAsync(async (_, res: Response) => {
   const stats = await collectStats();
-  return res.status(200).json(stats);
+  const maxTickets = await getMaxTickets();
+  return res.status(200).json({ stats, maxTickets });
 }));
 
 tickets.get("/", wrapAsync(async (req: Request, res: Response) => {
