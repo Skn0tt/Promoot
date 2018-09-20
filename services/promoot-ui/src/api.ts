@@ -36,7 +36,7 @@ export const createTicket = async (ticket: Partial<Ticket>, merchant: string, pa
 }
 
 export const isInCheckInPhase = async (password: string) => {
-  const res = await axios.get<boolean>(baseUrl + "/admin/checkInPhase", {
+  const res = await axios.get<boolean>(baseUrl + "/admin/isInCheckInPhase", {
     auth: {
       username: "admin",
       password
@@ -84,7 +84,7 @@ export const setMaxTickets = async (value: number, password: string) => {
 }
 
 export const setCheckInPhase = async (value: boolean, password: string) => {
-  const res = await axios.put<boolean>(baseUrl + "/admin/checkInPhase", "" + value, {
+  const res = await axios.put<boolean>(baseUrl + "/admin/isInCheckInPhase", "" + value, {
     headers: {
       "Content-Type": "text/plain"
     },
