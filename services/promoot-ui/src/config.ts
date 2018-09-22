@@ -39,8 +39,8 @@ const readConfig = () => {
   const c = getConfig();
 
   config = {
-    MERCHANT_NAMES: c.MERCHANT_NAMES.split(","),
-    TICKET_GROUPS: c.TICKET_GROUPS.split(","),
+    MERCHANT_NAMES: c.MERCHANT_NAMES.split(":"),
+    TICKET_GROUPS: c.TICKET_GROUPS.split(":"),
     TITLE: c.TITLE,
   };
 };

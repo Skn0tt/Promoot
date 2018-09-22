@@ -59,9 +59,9 @@ export const getConfig = () => {
       MAIL_SUBJECT_TEMPLATE,
     } = process.env;
 
-    const merchantNames = MERCHANT_NAMES.split(",");
-    const merchantPasswords = MERCHANT_PASSWORDS.split(",");
-    const ticketGroups = TICKET_GROUPS.split(",");
+    const merchantNames = MERCHANT_NAMES.split(":");
+    const merchantPasswords = MERCHANT_PASSWORDS.split(":");
+    const ticketGroups = TICKET_GROUPS.split(":");
 
     const merchants = merchantNames.map((name, index) => ({ name, password: merchantPasswords[index] }));
 
