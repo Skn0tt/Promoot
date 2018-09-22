@@ -28,7 +28,7 @@ services:
     image: redis
   
   backend:
-    image: skn0tt/promoot-backend:0.1.0
+    image: skn0tt/promoot-backend:${BACKEND_VERSION}
     restart: on-failure
     depends_on:
       - mysql
@@ -58,7 +58,7 @@ services:
       REDIS_PORT: 6379
 
   ui:
-    image: skn0tt/promoot-ui:0.1.0
+    image: skn0tt/promoot-ui:${UI_VERSION}
     restart: on-failure
     labels:
       - "traefik.enable=true"

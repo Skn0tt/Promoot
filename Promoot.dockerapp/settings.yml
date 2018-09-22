@@ -1,3 +1,5 @@
+UI_VERSION: 0.1.0
+BACKEND_VERSION: 0.1.0
 ADMIN_PASSWORD: "root"
 TICKET_GROUPS: "default:reduced:kids"
 MERCHANT_NAMES: "Alice:Bob:Carl"
@@ -19,4 +21,5 @@ MAIL_BODY_TEMPLATE: >-
   Greetings,
   Peter Promoot
 
-MAIL_SUBJECT_TEMPLATE: {{firstName}}, your ticket is here!
+
+MAIL_SUBJECT_TEMPLATE: "{{firstName}}, your ticket is here!"

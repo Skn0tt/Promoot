@@ -2,7 +2,7 @@
 
 touch docker-compose.out.yml
 echo "" > docker-compose.out.yml
-docker-app render > docker-compose.out.yml
+docker-app render -f ./scripts/dev.yml > docker-compose.out.yml
 
 docker-compose -f docker-compose.out.yml -f docker-compose.dev.yml up "$@"
 

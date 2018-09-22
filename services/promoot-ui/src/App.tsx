@@ -9,10 +9,18 @@ import NewTicket from "./routes/NewTicket";
 import CheckIn from "./routes/CheckIn";
 import { InfoBar } from "./components/InfoBar";
 import { Stats } from "./routes/Stats";
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import * as config from "./config";
 
 const { TITLE } = config.get();
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#F5A623"
+    }
+  }
+});
 
 interface AppState {
   infos: string[];
@@ -41,44 +49,46 @@ export class App extends React.PureComponent<{}, AppState> {
       <BrowserRouter>
         <InfoContext.Provider value={this.addItem}>
           <CssBaseline />
-          <Switch>
-            <Route
-              exact
-              path="/tickets/:ticketId/checkIn"
-              component={CheckIn}
-            />
+          <MuiThemeProvider theme={theme}>
+            <Switch>
+              <Route
+                exact
+                path="/tickets/:ticketId/checkIn"
+                component={CheckIn}
+              />
 
-            <React.Fragment>
-            <InfoBar items={infos} onChange={infos => this.setState({ infos })}/>
-              <Drawer
-                title={header}
-                listItems={<Routes />}
-              >
-                <Switch>
-                  <Route
-                    exact
-                    path="/tickets"
-                    component={TicketList}
-                  />
-                  <Route
-                    exact
-                    path="/tickets/new"
-                    component={NewTicket}
-                  />
-                  <Route
-                    exact
-                    path="/admin"
-                    component={AdminPlane}
-                  />
-                  <Route
-                    exact
-                    path="/stats"
-                    component={Stats}
-                  />
-                </Switch>
-              </Drawer>
-            </React.Fragment>
-          </Switch>
+              <React.Fragment>
+              <InfoBar items={infos} onChange={infos => this.setState({ infos })}/>
+                <Drawer
+                  title={header}
+                  listItems={<Routes />}
+                >
+                  <Switch>
+                    <Route
+                      exact
+                      path="/tickets"
+                      component={TicketList}
+                    />
+                    <Route
+                      exact
+                      path="/tickets/new"
+                      component={NewTicket}
+                    />
+                    <Route
+                      exact
+                      path="/admin"
+                      component={AdminPlane}
+                    />
+                    <Route
+                      exact
+                      path="/stats"
+                      component={Stats}
+                    />
+                  </Switch>
+                </Drawer>
+              </React.Fragment>
+            </Switch>
+          </MuiThemeProvider>
         </InfoContext.Provider>
       </BrowserRouter>
     )

@@ -1,4 +1,4 @@
-import axios, { AxiosBasicCredentials } from "axios";
+import axios from "axios";
 import { Ticket } from "./interfaces";
 
 const baseUrl = document.location.origin + "/api"

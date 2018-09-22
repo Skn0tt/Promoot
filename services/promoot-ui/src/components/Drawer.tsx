@@ -3,6 +3,7 @@ import * as React from 'react';
 import { AppBar, Toolbar, IconButton, Hidden, Typography, Drawer, withStyles, Divider } from '@material-ui/core';
 import { StyleRules, Theme, WithStyles } from '@material-ui/core/styles';
 import MenuIcon from "@material-ui/icons/Menu";
+import createPalette from '@material-ui/core/styles/createPalette';
 
 const drawerWidth = 240;
 
@@ -28,14 +29,6 @@ const styles = (theme: Theme): StyleRules => ({
   grow: {
     flex: "1 1 auto"
   },
-  logo: {
-    display: "block",
-    [theme.breakpoints.down("sm")]: {
-      position: "fixed",
-      left: "50%",
-      marginLeft: "-62px"
-    }
-  },
   navIconHide: {
     [theme.breakpoints.up("md")]: {
       display: "none"
@@ -59,6 +52,9 @@ const styles = (theme: Theme): StyleRules => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+  },
+  title: {
+    color: "white"
   }
 });
 
@@ -103,7 +99,7 @@ class ResponsiveDrawer extends React.Component<ResponsiveDrawerProps & WithStyle
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="title" noWrap className={classes.title}>
               {title}
             </Typography>
           </Toolbar>

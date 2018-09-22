@@ -1,3 +1,5 @@
+<img src="./doc/Logo.png" alt="Logo" align="right" height="80" />
+
 # Promoot
 
 Promoot is a ticketing software for event promotion.
