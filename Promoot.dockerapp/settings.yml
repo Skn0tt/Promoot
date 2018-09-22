@@ -5,3 +5,18 @@ MERCHANT_PASSWORDS: "sag,lfs,ema"
 PORT_HTTP: 80
 PORT_TRAEFIK_DASHBOARD: 8080
 TITLE: "SüM"
+SMTP_HOST: smtp.ethereal.email
+SMTP_PASSWORD: D5jUQMHSgQmJZJrT8Y
+SMTP_PORT: "587"
+SMTP_SENDER: EntE@simonknott.de
+SMTP_USERNAME: ykpfdkpewa7xdx5q@ethereal.email
+HOST_URL: http://localhost
+MAIL_BODY_TEMPLATE: >-
+  Hallo {{firstName}},
+
+  im Anhang findest du dein Ticket.
+
+  Grüße,
+  Simon
+
+MAIL_SUBJECT_TEMPLATE: Dein Ticket für die SüM

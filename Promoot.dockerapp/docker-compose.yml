@@ -37,6 +37,14 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=PathPrefixStrip: /api/"
     environment:
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SENDER: ${SMTP_SENDER}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      MAIL_BODY_TEMPLATE: ${MAIL_BODY_TEMPLATE}
+      MAIL_SUBJECT_TEMPLATE: ${MAIL_SUBJECT_TEMPLATE}
+      MAIL_TICKET_URL_TEMPLATE: ${HOST_URL}/tickets/{{id}}/checkIn
       MYSQL_DATABASE: promoot
       MYSQL_USERNAME: promoot
       MYSQL_PASSWORD: root

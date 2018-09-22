@@ -6,6 +6,7 @@ import * as bodyParser from "body-parser";
 import { admin } from "./controllers/admin";
 import { setupRedis } from "./redis";
 import { status } from "./controllers/status";
+import { setupMail } from "./mail";
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.use("/status", status);
 
 setupDB();
 setupRedis();
+setupMail();
 
 app.listen(3000);

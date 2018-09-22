@@ -4,6 +4,7 @@ import { getTickets, getTicket, checkInTicket, deleteTicket, createTicket, colle
 import basicAuth from "basic-auth";
 import { isAdmin, getMerchant } from "../users";
 import { isInCheckin, getMaxTickets } from "../redis";
+import { sendTicket } from "../mail";
 
 export const tickets = Router();
 export default tickets;
@@ -74,6 +75,8 @@ tickets.post("/", wrapAsync(async (req: Request, res: Response) => {
   if (createdTicket.isFail()) {
     return res.status(400).end(createdTicket.fail());
   }
+
+  sendTicket(createdTicket.success());
 
   return res.status(201).json(createdTicket.success());
 }));

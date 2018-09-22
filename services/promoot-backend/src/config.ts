@@ -5,6 +5,9 @@ interface Merchant {
 
 interface Config {
   merchants: Merchant[];
+  mailTicketUrlTemplate: string;
+  mailBodyTemplate: string;
+  mailSubjectTemplate: string;
   admin: {
     username: string;
     password: string;
@@ -19,6 +22,13 @@ interface Config {
   redis: {
     hostname: string;
     port: number;
+  };
+  smtp: {
+    host: string;
+    password: string;
+    username: string;
+    port: number;
+    sender: string;
   };
   ticketGroups: string[];
 }
@@ -38,7 +48,15 @@ export const getConfig = () => {
       ADMIN_PASSWORD,
       REDIS_HOSTNAME,
       REDIS_PORT,
-      TICKET_GROUPS
+      TICKET_GROUPS,
+      SMTP_HOST,
+      SMTP_PASSWORD,
+      SMTP_PORT,
+      SMTP_SENDER,
+      SMTP_USERNAME,
+      MAIL_TICKET_URL_TEMPLATE,
+      MAIL_BODY_TEMPLATE,
+      MAIL_SUBJECT_TEMPLATE,
     } = process.env;
 
     const merchantNames = MERCHANT_NAMES.split(",");
@@ -50,6 +68,9 @@ export const getConfig = () => {
     config = {
       merchants,
       ticketGroups,
+      mailTicketUrlTemplate: MAIL_TICKET_URL_TEMPLATE!,
+      mailBodyTemplate: MAIL_BODY_TEMPLATE!,
+      mailSubjectTemplate: MAIL_SUBJECT_TEMPLATE!,
       redis: {
         hostname: REDIS_HOSTNAME!,
         port: +REDIS_PORT!
@@ -64,6 +85,13 @@ export const getConfig = () => {
         hostname: MYSQL_HOSTNAME!,
         password: MYSQL_PASSWORD!,
         port: +MYSQL_PORT!
+      },
+      smtp: {
+        host: SMTP_HOST,
+        password: SMTP_PASSWORD,
+        port: +SMTP_PORT,
+        sender: SMTP_SENDER,
+        username: SMTP_USERNAME
       }
     };
   }
