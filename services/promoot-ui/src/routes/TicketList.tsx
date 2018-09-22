@@ -47,8 +47,8 @@ export class TicketList extends React.PureComponent<TicketListProps, TicketListS
         <CircularProgress />
       ),
       tickets => {
-        const columns = ["ID", "First Name", "Last Name", "Email", "Group", "Checked In"];
-        const data = tickets.map(t => [t.id, t.firstName, t.lastName, t.email, t.group, "" + t.checkedIn]);
+        const columns = ["ID", "First Name", "Last Name", "Email", "Group", "Merchant", "Checked In"];
+        const data = tickets.map(t => [t.id, t.firstName, t.lastName, t.email, t.group, t.merchant, "" + t.checkedIn]);
         return (
           <InfoContext.Consumer>
             {addInfo => (
