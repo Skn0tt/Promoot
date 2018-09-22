@@ -3,7 +3,7 @@ version: 0.1.0
 # Name of the application
 name: Promoot
 # A short description of the application
-description: 
+description: A ticketing software for event promotion.
 # Namespace to use when pushing to a registry. This is typically your Hub username.
 #namespace: myHubUsername
 # List of application maitainers with name and email for each

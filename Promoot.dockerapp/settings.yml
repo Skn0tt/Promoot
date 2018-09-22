@@ -1,22 +1,22 @@
 ADMIN_PASSWORD: "root"
-TICKET_GROUPS: "5:6:7:8:9"
-MERCHANT_NAMES: "SAG:LFS:EMA"
-MERCHANT_PASSWORDS: "sag:lfs:ema"
+TICKET_GROUPS: "default:reduced:kids"
+MERCHANT_NAMES: "Alice:Bob:Carl"
+MERCHANT_PASSWORDS: "alice:bob:carl"
 PORT_HTTP: 80
 PORT_TRAEFIK_DASHBOARD: 8080
-TITLE: "SueM"
+TITLE: "Promoot Party"
 SMTP_HOST: smtp.ethereal.email
 SMTP_PASSWORD: D5jUQMHSgQmJZJrT8Y
-SMTP_PORT: "587"
-SMTP_SENDER: EntE@simonknott.de
+SMTP_PORT: 587
+SMTP_SENDER: promoot@simonknott.de
 SMTP_USERNAME: ykpfdkpewa7xdx5q@ethereal.email
 HOST_URL: http://localhost
 MAIL_BODY_TEMPLATE: >-
-  Hallo {{firstName}},
+  Hello {{firstName}},
 
-  im Anhang findest du dein Ticket.
+  you find your ticket attached.
 
-  Grüße,
-  Simon
+  Greetings,
+  Peter Promoot
 
-MAIL_SUBJECT_TEMPLATE: Dein Ticket für die SüM
+MAIL_SUBJECT_TEMPLATE: {{firstName}}, your ticket is here!
