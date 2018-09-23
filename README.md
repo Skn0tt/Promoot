@@ -71,6 +71,7 @@ The number of checked in tickets is also shown in the statistics.
 | SMTP_USERNAME         | SMTP username                                                       |
 | SMTP_SENDER           | SMTP sender email address                                           |
 | TITLE                 | name of the event                                                   |
+| HOST_URL              | URL of your Server (example: https://promoot.simonknott.de).        |
 | MAIL_BODY_TEMPLATE    | template for the email body                                         |
 | MAIL_SUBJECT_TEMPLATE | template for the email subject                                      |
 
