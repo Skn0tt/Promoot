@@ -27,7 +27,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "express-wrap-async": "^1.0.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "monet": "^0.8.10",
     "morgan": "^1.9.1",
     "mustache": "^3.0.0",
