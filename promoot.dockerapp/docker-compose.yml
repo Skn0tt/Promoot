@@ -11,7 +11,7 @@ services:
       MYSQL_PASSWORD: root
 
   traefik:
-    image: traefik
+    image: traefik:1.7.18
     command:
       - "--api"
       - "--docker"
