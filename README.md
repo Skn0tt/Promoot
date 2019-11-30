@@ -12,10 +12,10 @@ It automates ticket issuing with your promoters and provides you with accurate s
 
 ## Get Started
 
-To start an instance, pull the Docker Application Package.
+To start an instance, install [docker-app](https://github.com/docker/app) and pull `skn0tt/promoot.dockerapp`:
 
 ```sh
-$ docker pull skn0tt/promoot.dockerapp
+$ docker app pull skn0tt/promoot.dockerapp
 ```
 
 Create your [configuration](#configuration) file:
@@ -33,7 +33,7 @@ MERCHANT_PASSWORDS: "sag:lfs:ema"
 Start Promoot:
 
 ```
-$ docker-app render -f prod.yml | docker-compose -f - up -d
+$ docker app pull run -f prod.yml skn0tt/promoot.dockerapp
 ```
 
 You can now use Promoot on [localhost](http://localhost).
