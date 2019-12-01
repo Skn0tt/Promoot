@@ -19,8 +19,8 @@ services:
     depends_on:
       - backend
     ports:
-      - "${PORT_HTTP}:80"
-      - "${PORT_TRAEFIK_DASHBOARD}:8080"
+      - "${port.http}:80"
+      - "${port.dashboard}:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
 
@@ -37,23 +37,23 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=PathPrefixStrip: /api/"
     environment:
-      SMTP_HOST: ${SMTP_HOST}
-      SMTP_PASSWORD: ${SMTP_PASSWORD}
-      SMTP_PORT: ${SMTP_PORT}
-      SMTP_SENDER: ${SMTP_SENDER}
-      SMTP_USERNAME: ${SMTP_USERNAME}
-      MAIL_BODY_TEMPLATE: ${MAIL_BODY_TEMPLATE}
-      MAIL_SUBJECT_TEMPLATE: ${MAIL_SUBJECT_TEMPLATE}
-      MAIL_TICKET_URL_TEMPLATE: ${HOST_URL}/tickets/{{id}}/checkIn
+      SMTP_HOST: ${smtp.host}
+      SMTP_PASSWORD: ${smtp.password}
+      SMTP_PORT: ${smtp.port}
+      SMTP_SENDER: ${smtp.sender}
+      SMTP_USERNAME: ${smtp.username}
+      MAIL_BODY_TEMPLATE: ${event.mail_templatesmplates.body}
+      MAIL_SUBJECT_TEMPLATE: ${event.mail_templatesmplates.subject}
+      MAIL_TICKET_URL_TEMPLATE: ${host_url}/tickets/{{id}}/checkIn
       MYSQL_DATABASE: promoot
       MYSQL_USERNAME: promoot
       MYSQL_PASSWORD: root
       MYSQL_HOSTNAME: mysql
       MYSQL_PORT: 3306
-      MERCHANT_NAMES: ${MERCHANT_NAMES}
-      MERCHANT_PASSWORDS: ${MERCHANT_PASSWORDS}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      TICKET_GROUPS: ${TICKET_GROUPS}
+      MERCHANT_NAMES: ${event.merchants.names}
+      MERCHANT_PASSWORDS: ${event.merchants.passwords}
+      ADMIN_PASSWORD: ${event.admin_password}
+      TICKET_GROUPS: ${event.ticket_groups}
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
 
@@ -64,9 +64,7 @@ services:
       - "traefik.enable=true"
       - "traefik.frontend.rule=PathPrefixStrip: /"
     environment:
-      - TICKET_GROUPS=${TICKET_GROUPS}
-      - MERCHANT_NAMES=${MERCHANT_NAMES}
-      - TITLE=${TITLE}
+      - TICKET_GROUPS=${event.ticket_groups}
+      - MERCHANT_NAMES=${event.merchants.names}
+      - TITLE=${event.name}
       - CONFIG_VARS=MERCHANT_NAMES,TICKET_GROUPS,TITLE
-
-

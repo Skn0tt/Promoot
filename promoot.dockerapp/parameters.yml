@@ -1,24 +1,30 @@
-ADMIN_PASSWORD: "root"
-TICKET_GROUPS: "default:reduced:kids"
-MERCHANT_NAMES: "Alice:Bob:Carl"
-MERCHANT_PASSWORDS: "alice:bob:carl"
-PORT_HTTP: 80
-PORT_TRAEFIK_DASHBOARD: 8080
-TITLE: "Promoot Party"
-SMTP_HOST: smtp.ethereal.email
-SMTP_PASSWORD: D5jUQMHSgQmJZJrT8Y
-SMTP_PORT: 587
-SMTP_SENDER: promoot@simonknott.de
-SMTP_USERNAME: ykpfdkpewa7xdx5q@ethereal.email
-HOST_URL: http://localhost
-MAIL_BODY_TEMPLATE: >-
-  Hello {{firstName}},
+port:
+  http: 3000
+  dashboard: 8080
 
-  you find your ticket attached.
+host_url: http://localhost
 
-  Greetings,
-  Peter Promoot
+smtp:
+  host: smtp.ethereal.email
+  password: D5jUQMHSgQmJZJrT8Y
+  port: 587
+  sender: promoot@simonknott.de
+  username: ykpfdkpewa7xdx5q@ethereal.email
 
-MAIL_SUBJECT_TEMPLATE: >-
-  Greetings {{firstName}}, your ticket is here!
+event:
+  name: Promoot Party
+  ticket_groups: "default:reduced:kids"
+  merchants:
+    names: "Alice:Bob:Carl"
+    passwords: "alice:bob:carl"
+  admin_password: "root"
+  mail_templates:
+    body: >-
+      Hello {{firstName}},
+
+      you find your ticket attached.
+
+      Greetings,
+      Peter Promoot
+    subject: Greetings {{firstName}}, your ticket is here!
 
